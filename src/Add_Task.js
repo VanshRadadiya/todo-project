@@ -3,18 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { AddTask, DeleteTask, UpdateTask } from './app/counter/counterSlice';
 import { Link } from 'react-router-dom'; function Add_Task() {
+
     let [title, setTitle] = useState("");
     let [discription, setDescription] = useState("");
     let [date, setDate] = useState("");
-    var task = useSelector((state) => state.counter.task);
-    var dispatch = useDispatch();
     let [index, setIndex] = useState();
     let [isUpdating, setIsUpdating] = useState(false);
-    const [task1, setTask1] = useState([]);
+    var task = useSelector((state) => state.counter.task);
+    var todo = JSON.parse(localStorage.getItem('tasks'));
+    var dispatch = useDispatch();
+
+// --------------------Date & Time --------------------//
     const completion_date = new Date(date);
     const today = new Date();
     let difference_days = completion_date - today;
-
     let total_days = Math.ceil(difference_days / (1000 * 60 * 60 * 24))
 
     let seconds = Math.floor(difference_days / 1000);
@@ -26,20 +28,7 @@ import { Link } from 'react-router-dom'; function Add_Task() {
     let hours = Math.floor(minutes / 60);
     minutes -= hours * 60;
 
-    useEffect(() => {
-        const storedTasks = localStorage.getItem('tasks');
-        console.log("Tasks retrieved from local storage:", storedTasks);
-        if (storedTasks) {
-            setTask1(JSON.parse(storedTasks));
-        }
-    }, []);
-
-    useEffect(() => {
-        console.log("Tasks before setting in local storage:", task);
-        localStorage.setItem('tasks', JSON.stringify(task));
-        console.log("Tasks after setting in local storage:", task);
-    }, [task]);
-
+// -------------------- Update Task --------------------//
     const update = (data) => {
         console.log(data);
         setTitle(data.title ? data.title : title);
@@ -49,6 +38,7 @@ import { Link } from 'react-router-dom'; function Add_Task() {
         setIsUpdating(true);
     }
 
+// -------------------- Task Add --------------------//
     const handleTask = () => {
         if (isUpdating) {
             dispatch(UpdateTask({ title, discription, ind: index, date, checked: false,total_days,seconds,minutes,hours  }));
@@ -62,6 +52,7 @@ import { Link } from 'react-router-dom'; function Add_Task() {
     return (
         <div>
             <div>
+                {/* --------------------- Add Task Form--------------------- */}
                 <section className="text-gray-600 body-font relative">
                     <div className="container px-5 py-24 mx-auto">
                         <div className="flex flex-col text-center w-full mb-12">
@@ -101,10 +92,9 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                     </div>
                 </section>
 
-
-
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-1/3 m-auto">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                {/* --------------------- Task Table--------------------- */}
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-auto sm:w-full lg:w-1/2 lg:mx-auto sm:mx-auto">
+                    <table class="w-full text-sm text-gray-500 dark:text-gray-400 text-center">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
@@ -126,7 +116,7 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                         </thead>
                         <tbody>
                             {
-                                task.map((data, ind) => {
+                              todo && todo.map((data, ind) => {
                                     return (
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={ind}>
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -138,10 +128,10 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                                             <td class="px-6 py-4">
                                                 {data.date}
                                             </td>
-                                            <td class="px-6 py-4 text-right">
+                                            <td class="px-6 py-4 text-center">
                                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => dispatch(DeleteTask(ind))}>Delete</a>
                                             </td>
-                                            <td class="px-6 py-4 text-right">
+                                            <td class="px-6 py-4 text-center">
                                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => { update({ title: data.title, discription: data.discription, ind: ind, date: data.date }) }}>Update</a>
                                             </td>
                                         </tr>
@@ -153,7 +143,6 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     )

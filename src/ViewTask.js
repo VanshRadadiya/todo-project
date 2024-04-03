@@ -1,34 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { CompleteTask, UpdateStatus, ProgressTask, AllTask,UpdatePriority } from './app/counter/counterSlice';
+import { CompleteTask, UpdateStatus, ProgressTask, AllTask, UpdatePriority, UpdateTask } from './app/counter/counterSlice';
 import { Link } from 'react-router-dom';
 import { BsStarFill } from "react-icons/bs";
 import { BsStar } from "react-icons/bs";
 function ViewTask() {
-
-  useEffect(() => {
-    const handleDropdown = (event) => {
-      const dropdownButton = document.getElementById('dropdownActionButton');
-      const dropdownMenu = document.getElementById('dropdownAction');
-
-      if (!dropdownButton || !dropdownMenu) return;
-
-      if (dropdownButton.contains(event.target) || dropdownMenu.contains(event.target)) {
-        dropdownMenu.classList.toggle('hidden');
-      } else {
-        dropdownMenu.classList.add('hidden');
-      }
-    };
-
-    document.addEventListener('click', handleDropdown);
-
-    return () => {
-      document.removeEventListener('click', handleDropdown);
-    };
-  }, []);
-
   var task = useSelector((state) => state.counter.task);
+  var todo = JSON.parse(localStorage.getItem('tasks'));
   const dispatch = useDispatch();
+
+  // ---------------- Task Status ------------------//
   const handleCheck = (index) => {
     const CheckTasks = task.map((task, i) => {
       if (i === index) {
@@ -39,6 +20,7 @@ function ViewTask() {
     dispatch(UpdateStatus(CheckTasks));
   };
 
+  // ---------------- Task Priority ------------------//
   const handlePriority = (index) => {
     const StarTasks = task.map((task, i) => {
       if (i === index) {
@@ -49,84 +31,98 @@ function ViewTask() {
     dispatch(UpdatePriority(StarTasks));
   };
 
-
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(task));
-  }, [task]);
   return (
     <div>
-      <button onClick={() => dispatch(CompleteTask())}>Complete</button>
-      <button onClick={() => dispatch(ProgressTask())}>In Progress</button>
-      <button onClick={() => dispatch(AllTask())}>All</button>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-1/3 m-auto" style={{ width: "80%" }}>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-6 py-3">
-                Task Title
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Task Description
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Date & Time
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Remaining Days
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Priority
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              task.map((data, index) => {
-                return (
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={index}>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {data.title}
-                    </th>
-                    <td class="px-6 py-4">
-                      {data.discription}
-                    </td>
-                    <td class="px-6 py-4">
-                      {data.date}
-                    </td>
-                    <td class="px-6 py-4">
-                      {data.total_days} Days || {data.hours} H : {data.minutes} M : {data.seconds} S
-                    </td>
-                    <td>
-                      <div className="flex items-center">
-                        <input id={`checkbox-${index}`} type="checkbox" checked={data.checked} onChange={() => handleCheck(index)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                        <label htmlFor={`checkbox-${index}`} className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Status</label>
-                      </div>
-                    </td>
-                    <td>
-                      {/* Star icon/button to toggle priority */}
-                      {data.priority ? (
-                        <BsStarFill
-                          onClick={() => handlePriority(index)}
-                          className="text-yellow-500 cursor-pointer"
-                        />
-                      ) : (
-                        <BsStar
-                          onClick={() => handlePriority(index)}
-                          className="text-gray-500 cursor-pointer"
-                        />
-                      )}
-                    </td>
-                  </tr>
-                )
-              })
-            }
+      <div>
+        {/* ------------------ View Task ------------------ */}
+        <div className="flex flex-wrap -mx-3 mb-5">
+          <div className="w-full max-w-full px-3 mb-6  mx-auto" >
+            <div className="relative flex-[1_auto] flex flex-col break-words min-w-0 bg-clip-border rounded-[.95rem] bg-white m-5">
+              <div className="relative flex flex-col min-w-0 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30" style={{backgroundColor:"#374151"}}>
+                {/* card header */}
+                <div className="px-9 pt-5 flex justify-between items-stretch flex-wrap min-h-[70px] pb-5 bg-transparent">
+                  <h3 className="flex flex-col items-start justify-center m-2 ml-0 font-medium text-xl/tight text-dark">
+                    <span className="mr-3 font-bold text-dark">Task Deliveries</span>
+                    <span className="mt-1 font-sans text-secondary-dark text-lg/normal text-gray-300">All Task from the IT Company</span>
+                  </h3>
+                  <div className="relative flex flex-wrap items-center my-2">
+                    <button className='border-2 mx-3  border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(CompleteTask())}>Complete</button>
+                    <button className='border-2 mx-3  border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(ProgressTask())}>In Progress</button>
+                    <button className='border-2 mx-3  border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(AllTask())}>All Task</button>
+                  </div>
+                </div>
+                {/* end card header */}
+                {/* card body  */}
+                <div className="flex-auto block py-8 pt-6 px-9">
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-0 align-middle text-dark border-neutral-200">
+                      <thead className="align-bottom">
+                        <tr className="font-semibold text-[0.95rem] text-gray-300">
+                          <th className="pb-3 text-center ">PRIORITY</th>
+                          <th className="pb-3 text-center ">STATUS</th>
+                          <th className="pb-3 text-center ">NAME</th>
+                          <th className="pb-3 text-center ">DESCRIPTION</th>
+                          <th className="pb-3 text-center ">DEADLINE</th>
+                          <th className="pb-3 text-center ">REMAINING DAYS</th>
+                          <th className="pb-3 text-center ">REMAINING TIME</th>
+                        </tr>
+                      </thead>
+                      <tbody style={{backgroundColor:"#1f2937"}}>
+                        {
+                          task.map((data, index) => {
+                            return (
+                              <tr className="border-b border-gray-700 last:border-b-0 font-semibold text-center text-gray-400">
+                                <td className='py-4'>
+                                  {data.priority ? (
+                                    <BsStarFill
+                                      onClick={() => handlePriority(index)}
+                                      className="text-yellow-500 cursor-pointer mx-auto"
+                                    />
+                                  ) : (
+                                    <BsStar
+                                      onClick={() => handlePriority(index)}
+                                      className="text-gray-500 cursor-pointer mx-auto"
+                                    />
+                                  )}
+                                </td>
+                                <td className='px-2'>
+                                  <div className="flex items-center justify-center">
+                                    <input id={`checkbox-${index}`} type="checkbox" checked={data.checked} onChange={() => handleCheck(index)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <label htmlFor={`checkbox-${index}`} className="ms-2 text-sm font-medium">Status</label>
+                                  </div>
+                                </td>
+                                <td class=" py-4">
+                                  {data.title}
+                                </td>
+                                <td class=" py-4">
+                                  {data.discription}
+                                </td>
+                                <td class=" py-4">
+                                  {data.date}
+                                </td>
+                                <td class=" py-4">
+                                  {data.total_days} Days
+                                </td>
+                                <td class=" py-4">
+                                  {data.hours} H : {data.minutes} M : {data.seconds} S
+                                </td>
 
-          </tbody>
-        </table>
+
+                              </tr>
+                            )
+                          })
+                        }
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
 
 
