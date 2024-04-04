@@ -93,7 +93,7 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                 </section>
 
                 {/* --------------------- Task Table--------------------- */}
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-auto sm:w-full lg:w-1/2 lg:mx-auto sm:mx-auto">
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-5 rounded-lg md:mx-10 lg:mx-52 xl:mx-80">
                     <table class="w-full text-sm text-gray-500 dark:text-gray-400 text-center">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>

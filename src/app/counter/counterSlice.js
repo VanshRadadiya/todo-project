@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   task: [],
   task1: [],
+  All: [],
 }
 
 export const counterSlice = createSlice({
@@ -52,15 +53,16 @@ export const counterSlice = createSlice({
       localStorage.setItem('tasks', JSON.stringify([...state.task]));
     },
     CompleteTask: (state, action) => {
-      const cdata = state.task1.filter((task, ind) => task.checked === true);
-      state.task = cdata;
+      var cdata = JSON.parse(localStorage.getItem('tasks'));
+      state.task = cdata.filter((task, ind) => task.checked === true);
     },
     ProgressTask: (state, action) => {
-      const pdata = state.task1.filter((task, ind) => task.checked === false);
-      state.task = pdata;
+      var pdata = JSON.parse(localStorage.getItem('tasks'));
+      state.task = pdata.filter((task, ind) => task.checked === false);
+
     },
     AllTask: (state, action) => {
-      const all = [...state.task1];
+      var all = JSON.parse(localStorage.getItem('tasks'));
       state.task = all;
     },
     // ------------------ Update Priority ----------------------//
@@ -76,7 +78,7 @@ export const counterSlice = createSlice({
       const oldData = localStorage.getItem('tasks');
       if (oldData) {
         state.task = (JSON.parse(oldData));
-        console.log(state.task);
+        // console.log(state.task);
       }
     }
   }

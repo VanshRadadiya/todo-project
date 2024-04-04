@@ -46,9 +46,9 @@ function ViewTask() {
                     <span className="mt-1 font-sans text-secondary-dark text-lg/normal text-gray-300">All Task from the IT Company</span>
                   </h3>
                   <div className="relative flex flex-wrap items-center my-2">
-                    <button className='border-2 mx-3  border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(CompleteTask())}>Complete</button>
-                    <button className='border-2 mx-3  border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(ProgressTask())}>In Progress</button>
-                    <button className='border-2 mx-3  border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(AllTask())}>All Task</button>
+                    <button className='border-2 sm:mx-3 me-3 my-3 border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(CompleteTask())}>Complete</button>
+                    <button className='border-2 sm:mx-3 me-3 my-3 border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(ProgressTask())}>In Progress</button>
+                    <button className='border-2 sm:mx-3 me-3 my-3 border-black rounded'style={{backgroundColor:"#1f2937",color:"white",padding:"3px 15px"}} onClick={() => dispatch(AllTask())}>All Task</button>
                   </div>
                 </div>
                 {/* end card header */}
@@ -58,13 +58,13 @@ function ViewTask() {
                     <table className="w-full my-0 align-middle text-dark border-neutral-200">
                       <thead className="align-bottom">
                         <tr className="font-semibold text-[0.95rem] text-gray-300">
-                          <th className="pb-3 text-center ">PRIORITY</th>
-                          <th className="pb-3 text-center ">STATUS</th>
-                          <th className="pb-3 text-center ">NAME</th>
-                          <th className="pb-3 text-center ">DESCRIPTION</th>
-                          <th className="pb-3 text-center ">DEADLINE</th>
-                          <th className="pb-3 text-center ">REMAINING DAYS</th>
-                          <th className="pb-3 text-center ">REMAINING TIME</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">PRIORITY</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">STATUS</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">NAME</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">DESCRIPTION</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">DEADLINE</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">REMAINING DAYS</th>
+                          <th className="pb-3 px-5 md:px-3 text-center ">REMAINING TIME</th>
                         </tr>
                       </thead>
                       <tbody style={{backgroundColor:"#1f2937"}}>
@@ -106,8 +106,6 @@ function ViewTask() {
                                 <td class=" py-4">
                                   {data.hours} H : {data.minutes} M : {data.seconds} S
                                 </td>
-
-
                               </tr>
                             )
                           })
