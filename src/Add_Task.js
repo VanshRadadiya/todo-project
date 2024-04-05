@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { AddTask, DeleteTask, UpdateTask } from './app/counter/counterSlice';
-import { Link } from 'react-router-dom'; function Add_Task() {
+import { Link } from 'react-router-dom'; 
+import { FaTrashCan } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
+function Add_Task() {
 
     let [title, setTitle] = useState("");
     let [discription, setDescription] = useState("");
@@ -94,7 +97,7 @@ import { Link } from 'react-router-dom'; function Add_Task() {
 
                 {/* --------------------- Task Table--------------------- */}
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-5 rounded-lg md:mx-10 lg:mx-52 xl:mx-80">
-                    <table class="w-full text-sm text-gray-500 dark:text-gray-400 text-center">
+                    <table class="w-full text-xs md:text-sm text-gray-500 dark:text-gray-400 text-center">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
@@ -107,10 +110,12 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                                     Date & Time
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    <span class="sr-only">Edit</span>
+                                    {/* <span class="sr-only">Edit</span> */}
+                                    Trash
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    <span class="sr-only">Update</span>
+                                    {/* <span class="sr-only">Update</span> */}
+                                    Edit
                                 </th>
                             </tr>
                         </thead>
@@ -119,9 +124,9 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                               todo && todo.map((data, ind) => {
                                     return (
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={ind}>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <td class="px-6 py-4">
                                                 {data.title}
-                                            </th>
+                                            </td>
                                             <td class="px-6 py-4">
                                                 {data.discription}
                                             </td>
@@ -129,10 +134,10 @@ import { Link } from 'react-router-dom'; function Add_Task() {
                                                 {data.date}
                                             </td>
                                             <td class="px-6 py-4 text-center">
-                                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => dispatch(DeleteTask(ind))}>Delete</a>
+                                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => dispatch(DeleteTask(ind))}><FaTrashCan className='mx-auto text-white'/></a>
                                             </td>
                                             <td class="px-6 py-4 text-center">
-                                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => { update({ title: data.title, discription: data.discription, ind: ind, date: data.date }) }}>Update</a>
+                                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => { update({ title: data.title, discription: data.discription, ind: ind, date: data.date }) }}><FaEdit className='mx-auto text-white'/></a>
                                             </td>
                                         </tr>
                                     )

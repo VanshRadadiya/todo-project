@@ -55,9 +55,9 @@ function ViewTask() {
                 {/* card body  */}
                 <div className="flex-auto block py-8 pt-6 px-9">
                   <div className="overflow-x-auto">
-                    <table className="w-full my-0 align-middle text-dark border-neutral-200">
+                    <table className="w-full my-0 align-middle text-dark border-neutral-200 text-xs lg:text-base">
                       <thead className="align-bottom">
-                        <tr className="font-semibold text-[0.95rem] text-gray-300">
+                        <tr className="font-semibold text-gray-300">
                           <th className="pb-3 px-5 md:px-3 text-center ">PRIORITY</th>
                           <th className="pb-3 px-5 md:px-3 text-center ">STATUS</th>
                           <th className="pb-3 px-5 md:px-3 text-center ">NAME</th>
